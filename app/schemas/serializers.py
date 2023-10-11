@@ -9,11 +9,9 @@ def configure(app):
 class TaskSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Task
-        include_relationships = True
         load_instance = True
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
-   class Meta:
+    class Meta:
         model = User
-        include_fk = True
         load_instance = True
