@@ -1,8 +1,8 @@
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required, get_jwt
 from flask import Blueprint, current_app, request, jsonify
 from app.schemas.serializers import UserSchema
 from config import revoked_tokens
 from app.models import User
-from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required, get_jwt
 
 bp_users = Blueprint('user', __name__)
 
@@ -62,3 +62,17 @@ def refresh():
     current_user = get_jwt_identity()
     new_access_token = create_access_token(identity=current_user)
     return jsonify(access_token=new_access_token)
+
+
+@bp_users.route('/delete', methods=['DELETE'])
+@jwt_required(refresh=True)
+def delete():
+    try:
+        user_id = request.args.get('id')
+        User.query.filter_by(id=user_id).delete()
+
+        current_app.db.session.commit()
+        return {'message': 'User deleted successfully'}, 204
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400

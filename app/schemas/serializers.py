@@ -10,6 +10,7 @@ class TaskSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Task
         load_instance = True
+        include_fk = True
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
