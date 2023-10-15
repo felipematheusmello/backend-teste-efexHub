@@ -4,15 +4,15 @@ from config import (
     APP_SECRET_KEY,
     JWT_SECRET_KEY
 )
+from flask_cors import CORS
 from flask_migrate import Migrate
 from app.models import configure as config_db
 from app.schemas.serializers import configure as config_ma
 from app.controller.auth import configure as config_jwt
 
-
 def create_app():
     app = Flask(__name__)
-
+    CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5000"}})
     # Configuração do SQLAlchemy
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{URI_BASE}'
     app.config['SECRET_KEY'] = APP_SECRET_KEY

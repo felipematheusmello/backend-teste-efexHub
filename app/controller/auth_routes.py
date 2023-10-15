@@ -1,5 +1,6 @@
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required, get_jwt
 from flask import Blueprint, current_app, request, jsonify
+from flask_cors import cross_origin
 from app.schemas.serializers import UserSchema
 from config import revoked_tokens
 from app.models import User
@@ -7,12 +8,14 @@ from app.models import User
 bp_users = Blueprint('user', __name__)
 
 @bp_users.route('/', methods=['GET'])
+@jwt_required(refresh=True)
 def list():
     us = UserSchema(many=True)
     result = User.query.all()
     return us.jsonify(result)
 
 @bp_users.route('/register', methods=['POST'])
+@cross_origin()
 def register():
     try:
         us = UserSchema()
@@ -29,12 +32,12 @@ def register():
         return jsonify({"error": str(e)}), 400
 
 @bp_users.route('/login', methods=['POST'])
+@cross_origin()
 def login():
     try:
         us = UserSchema()
         user_data = us.load(request.json)
         user = User.query.filter_by(username=str(user_data.username)).first()
-        print(user.password)
         if not user or not user.check_password(request.json['password']):
             return jsonify({"error": 'Invalid password or username'}), 400
 
