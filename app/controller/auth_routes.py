@@ -9,6 +9,7 @@ bp_users = Blueprint('user', __name__)
 
 @bp_users.route('/', methods=['GET'])
 @jwt_required(refresh=True)
+@cross_origin()
 def list():
     us = UserSchema(many=True)
     result = User.query.all()
