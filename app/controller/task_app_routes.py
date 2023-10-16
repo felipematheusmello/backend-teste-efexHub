@@ -6,7 +6,7 @@ from flask import Blueprint, current_app, request, jsonify
 
 bp_task = Blueprint('task', __name__)
 
-@bp_task.route('/', methods=['GET'])
+@bp_task.route('', methods=['GET'])
 @jwt_required()
 @cross_origin()
 def list():
@@ -20,7 +20,7 @@ def list():
 
     return ts.jsonify(result)
 
-@bp_task.route('/', methods=['POST'])
+@bp_task.route('', methods=['POST'])
 @jwt_required()
 @cross_origin()
 def create():
@@ -40,7 +40,7 @@ def create():
 
 
 
-@bp_task.route('/', methods=['PUT'])
+@bp_task.route('', methods=['PUT'])
 @jwt_required()
 @cross_origin()
 def change():
@@ -68,7 +68,7 @@ def change():
         return jsonify({'error': str(e)}), 400
 
 
-@bp_task.route('/', methods=['DELETE'])
+@bp_task.route('', methods=['DELETE'])
 @jwt_required()
 @cross_origin()
 def delete():

@@ -7,8 +7,7 @@ from app.models import User
 
 bp_users = Blueprint('user', __name__)
 
-@bp_users.route('/', methods=['GET'])
-@jwt_required()
+@bp_users.route('/', methods=['GET'], strict_slashes=False)
 @cross_origin()
 def list():
     us = UserSchema(many=True)
