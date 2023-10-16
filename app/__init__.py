@@ -19,7 +19,9 @@ def create_app():
         "expose_headers": ["X-My-Custom-Header"],
         "supports_credentials": True
         }})
-    # Configuração do SQLAlchemy
+
+    CORS(app)
+
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{URI_BASE}'
     app.config['SECRET_KEY'] = APP_SECRET_KEY
     app.config['JWT_SECRET_KEY'] = JWT_SECRET_KEY
