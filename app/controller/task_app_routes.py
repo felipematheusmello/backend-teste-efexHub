@@ -45,11 +45,11 @@ def create():
 @cross_origin()
 def change():
     user_id = get_jwt_identity()
-    task_id = request.args.get('id')
     try:
         ts = TaskSchema()
         data = request.json
         data['user_id'] = user_id
+        task_id = data['id']
 
         task = Task.query.get(task_id)
         if not task:
