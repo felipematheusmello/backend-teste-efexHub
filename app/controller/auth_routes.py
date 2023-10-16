@@ -53,6 +53,7 @@ def login():
 
 @bp_users.route('/logout', methods=['POST'])
 @jwt_required(refresh=True)
+@cross_origin()
 def logout():
     jti = get_jwt()['jti']
     revoked_tokens.add(jti)
@@ -61,6 +62,7 @@ def logout():
 
 @bp_users.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)
+@cross_origin()
 def refresh():
     current_user = get_jwt_identity()
     new_access_token = create_access_token(identity=current_user)
@@ -69,6 +71,7 @@ def refresh():
 
 @bp_users.route('/delete', methods=['DELETE'])
 @jwt_required(refresh=True)
+@cross_origin()
 def delete():
     try:
         user_id = request.args.get('id')

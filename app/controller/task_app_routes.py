@@ -1,12 +1,14 @@
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import Task
 from app.schemas.serializers import TaskSchema
+from flask_cors import cross_origin
 from flask import Blueprint, current_app, request, jsonify
 
 bp_task = Blueprint('task', __name__)
 
 @bp_task.route('/', methods=['GET'])
 @jwt_required()
+@cross_origin()
 def list():
     ts = TaskSchema(many=True)
     user_id = request.args.get('id')
@@ -20,6 +22,7 @@ def list():
 
 @bp_task.route('/', methods=['POST'])
 @jwt_required()
+@cross_origin()
 def create():
     user_id = get_jwt_identity()
     try:
@@ -39,6 +42,7 @@ def create():
 
 @bp_task.route('/', methods=['PUT'])
 @jwt_required()
+@cross_origin()
 def change():
     user_id = get_jwt_identity()
     task_id = request.args.get('id')
@@ -66,6 +70,7 @@ def change():
 
 @bp_task.route('/', methods=['DELETE'])
 @jwt_required()
+@cross_origin()
 def delete():
     task_id = request.args.get('id')
     try:
