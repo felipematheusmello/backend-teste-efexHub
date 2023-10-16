@@ -12,7 +12,13 @@ from app.controller.auth import configure as config_jwt
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5000"}})
+    CORS(app, resources={r"/api/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "PUT", "DELETE"],
+        "allow_headers": ["Content-Type"],
+        "expose_headers": ["X-My-Custom-Header"],
+        "supports_credentials": True
+        }})
     # Configuração do SQLAlchemy
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{URI_BASE}'
     app.config['SECRET_KEY'] = APP_SECRET_KEY

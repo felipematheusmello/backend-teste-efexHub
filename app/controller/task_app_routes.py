@@ -11,7 +11,7 @@ bp_task = Blueprint('task', __name__)
 @cross_origin()
 def list():
     ts = TaskSchema(many=True)
-    user_id = request.args.get('id')
+    user_id = get_jwt_identity()
     if user_id:
         result = Task.query.filter_by(user_id=user_id)
         return ts.jsonify(result)
